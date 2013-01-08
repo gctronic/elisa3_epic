@@ -84,6 +84,8 @@ while length(propertyArgIn) >= 2,
    case 'custom'
        ePic.param.customCommand = val(1:size(val,2)-1);
        ePic.param.customSize = val(size(val,2));
+   case 'resetAndCalib'
+        ePic.param.resetAndCalib = val;   
    otherwise
       error('Asset properties: Descriptor, Date, CurrentValue')
    end

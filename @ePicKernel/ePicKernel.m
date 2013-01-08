@@ -12,6 +12,7 @@ ePic.update.speed = 1;         % motor speed
 ePic.update.pos = 1;           % motor position
 ePic.update.odom = 1;          % odometry
 ePic.update.floor = 0;         % floor sensors
+ePic.update.floorLight = 0;
 ePic.update.image = 0;         % camera
 ePic.update.exter = 0;         % external sensor
 ePic.update.custom = 0;        % custom command
@@ -25,6 +26,7 @@ ePic.updated.speed = 0;         % motor speed
 ePic.updated.pos = 0;           % motor position
 ePic.updated.odom = 0;          % odometry position
 ePic.updated.floor = 0;         % floor sensorss
+ePic.updated.floorLight = 0;
 ePic.updated.image = 0;         % camera
 ePic.updated.exter = 0;         % external sensor
 ePic.updated.custom = 0;        % custom command
@@ -39,6 +41,7 @@ ePic.value.pos = zeros(1,2);     % motor position
 ePic.value.pos_old = zeros(1,2); % old motor position used for odometry
 ePic.value.odom = zeros(1,3);    % odometry position : x, y, theta
 ePic.value.floor = zeros(1,4);   % floor sensors
+ePic.value.floorLight = zeros(1,4);
 ePic.value.image = 0;            % camera
 ePic.value.exter = 0;            % external sensor
 ePic.value.custom = 0;           % custom command
@@ -48,7 +51,7 @@ ePic.set.speed = zeros(1,2);     % set speed at 0
 ePic.set.pos = zeros(1,2);       % set position at 0
 ePic.set.led = zeros(1,10);      % switch led on (8 body, 9 front, 10 all)
 ePic.clear.led = ones(1,10);     % switch led off
-
+ePic.set.ledState = uint8(0);
 
 % ePic.param - Parameter of ePic
 ePic.param.connected = 0;       % 1=connected, 0=not connected
@@ -63,5 +66,6 @@ ePic.param.extSel = 8;          % selected external sensor
 ePic.param.ledIR = zeros(1,5);  % select the led of the IR sensor
 ePic.param.customCommand = [];   % send a list of custom command
 ePic.param.customSize = 0;       % size of the data to receive resulting from the custom command
+ePic.param.resetAndCalib = 0;
 
 ePic = class(ePic,'ePicKernel');

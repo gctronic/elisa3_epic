@@ -11,8 +11,11 @@ function [ePic, result] = disconnect(ePic)
 %   ePic            :   ePicKernel object
 
 try
-    flush(ePic);
-    fclose(ePic.param.comPort);
+%     flush(ePic);
+%     fclose(ePic.param.comPort);
+
+    usb_communication(3);
+
     clear ePic.param.comPort;
     disp 'ePic successfully disconnected'
     result = 1;

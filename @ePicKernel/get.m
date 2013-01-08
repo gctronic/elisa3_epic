@@ -51,6 +51,9 @@ case 'odom'
 case 'floor'     
    val = ePic.value.floor;
    up = ePic.updated.floor;
+case 'floorLight'     
+   val = ePic.value.floorLight;
+   up = ePic.updated.floorLight;
 case 'external'
     val = ePic.value.exter;
     up = ePic.updated.exter;

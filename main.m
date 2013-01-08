@@ -111,7 +111,8 @@ global valuesSensors;
     if (size(serialTmp.SerialPorts,1) > 0)
         set(handles.str_port,'String',serialTmp.SerialPorts);
     else
-        set(handles.str_port,'String','no port detected');
+        set(handles.str_port,'String', cell(1));
+        %set(handles.str_port,'String','no port detected');
     end
     drawnow;
     
@@ -181,7 +182,7 @@ if (get(ePic,'connectionState') == 0)
         start(timer1);
     else
         % Connection error
-        msgbox('Connection error. Try an other port or switch the e-puck on');
+        msgbox('Connection error. Try an other address or switch the Elisa-3 on');
         set(handles.btmConnect,'String','Connect');
     end
     set(handles.btmConnect,'Enable','on');
@@ -587,6 +588,12 @@ if (up >= 1)
     end
 end
 
+[val, up] = get(ePic, 'floorLight');     % Floor sensors
+if (up >= 1)
+    if (selectedSensor == 5)
+        selectedSensorValue = val;
+    end
+end
 
 % Display selected sensor value in the global field
 tmp_text = '';
@@ -691,6 +698,8 @@ function btm_stop_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global ePic;
+set(handles.str_setLSpeed,'String',0);
+set(handles.str_setRSpeed,'String',0);
 ePic=set(ePic,'speed', [0 0]);
 
 function edit6_Callback(hObject, eventdata, handles)
@@ -993,7 +1002,21 @@ function btm_setMotorS_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global ePic;
-ePic=set(ePic,'speed', [str2num(get(handles.str_setLSpeed,'String')) str2num(get(handles.str_setRSpeed,'String'))]);
+vl = str2num(get(handles.str_setLSpeed,'String'));
+vr = str2num(get(handles.str_setRSpeed,'String'));
+if vl > 127
+    vl = 127;
+elseif vl < -127
+    vl = -127;
+end
+if vr > 127
+    vr = 127;
+elseif vr < -127
+    vr = -127;
+end
+set(handles.str_setLSpeed,'String',round(vl));
+set(handles.str_setRSpeed,'String',round(vr));
+ePic=set(ePic,'speed', [vl vr]);
 
 % --- Executes on button press in btm_setMotorP.
 function btm_setMotorP_Callback(hObject, eventdata, handles)
@@ -1117,14 +1140,25 @@ function axes_joystick_ButtonDownFcn(hObject, eventdata, handles)
 global ePic;
 
 vect=get(handles.axes_joystick,'CurrentPoint');
-side =  vect(1,1);
-speed = 1000 * vect(1,2);
+side =  vect(1,1);  % x
+speed = 50 * vect(1,2); %1000 * vect(1,2); % y
 if (side > 0) 
-    vl = speed;
-    vr = speed- side*speed;
+    vl = speed + side*10; %speed;
+    vr = speed - side*10; %speed - side*speed;
 else
-    vl = speed + side*speed;
-    vr = speed;
+    vl = speed + side*10; %speed + side*speed;
+    vr = speed - side*10;             %speed
+end
+
+if vl > 127
+    vl = 127;
+elseif vl < -127
+    vl = -127;
+end
+if vr > 127
+    vr = 127;
+elseif vr < -127
+    vr = -127;
 end
 
 set(handles.str_setLSpeed,'String',round(vl));
@@ -2077,7 +2111,7 @@ function btm_ode_reset_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global ePic;
-
+ePic = set(ePic,'resetAndCalib',1);
 ePic = set(ePic,'odom',[0 0 0]);
 
 
