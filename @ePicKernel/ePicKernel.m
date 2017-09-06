@@ -52,6 +52,8 @@ ePic.set.pos = zeros(1,2);       % set position at 0
 ePic.set.led = zeros(1,10);      % switch led on (8 body, 9 front, 10 all)
 ePic.clear.led = ones(1,10);     % switch led off
 ePic.set.ledState = uint8(0);
+ePic.set.rgb = zeros(1,3);		% Turn off RGB led
+ePic.set.irTx = zeros(1,2);		% Turn off IR front and back transmitters
 
 % ePic.param - Parameter of ePic
 ePic.param.connected = 0;       % 1=connected, 0=not connected

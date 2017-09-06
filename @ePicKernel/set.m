@@ -85,7 +85,27 @@ while length(propertyArgIn) >= 2,
        ePic.param.customCommand = val(1:size(val,2)-1);
        ePic.param.customSize = val(size(val,2));
    case 'resetAndCalib'
-        ePic.param.resetAndCalib = val;   
+        ePic.param.resetAndCalib = val;
+   case 'rgb'
+       ePic.set.rgb = val;
+       % Verify range
+       if ePic.set.rgb(1) < 0
+           ePic.set.rgb(1) = 0;
+       elseif ePic.set.rgb(1) > 100
+           ePic.set.rgb(1) = 100;
+       end
+       if ePic.set.rgb(2) < 0
+           ePic.set.rgb(2) = 0;
+       elseif ePic.set.rgb(2) > 100
+           ePic.set.rgb(2) = 100;
+       end
+       if ePic.set.rgb(3) < 0
+           ePic.set.rgb(3) = 0;
+       elseif ePic.set.rgb(3) > 100
+           ePic.set.rgb(3) = 100;
+       end  
+   case 'irtx'
+       ePic.set.irTx = val;	   
    otherwise
       error('Asset properties: Descriptor, Date, CurrentValue')
    end

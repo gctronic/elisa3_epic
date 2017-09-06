@@ -75,6 +75,21 @@ if(ePic.param.resetAndCalib > 0)
    tx(4) = bitor(tx(4), bitsll(uint8(1), 4));
 end
 
+tx(1) = ePic.set.rgb(1);
+tx(2) = ePic.set.rgb(3);
+tx(3) = ePic.set.rgb(2);
+
+if(ePic.set.irTx(1)==1)
+	tx(4) = bitor(tx(4), bitsll(uint8(1), 0));
+else
+	tx(4) = bitand(tx(4), bitcmp(bitsll(uint8(1), 0)));
+end
+if(ePic.set.irTx(2)==1)
+	tx(4) = bitor(tx(4), bitsll(uint8(1), 1));
+else
+	tx(4) = bitand(tx(4), bitcmp(bitsll(uint8(1), 1)));
+end
+
 %tx
 
 prox = ePic.value.proxi; %zeros(1,8);
